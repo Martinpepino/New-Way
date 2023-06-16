@@ -160,3 +160,47 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
   from {opacity: .4}
   to {opacity: 1}
 }
+
+/* animacion activar */
+
+.activar {
+  animation-name: activar;
+  animation-duration: 4s;
+}
+
+@keyframes activar {
+  from {opacity: .1}
+  to {opacity: 1}
+}
+
+/* MEDIA QUERY */
+
+@media (max-width: 700px){
+  header{
+      flex-direction: column;
+  }
+
+  nav{
+      padding: 10px 0px;
+      display: list-item;
+      font-size: large;
+  }
+  li:last-child{
+    text-align: center;
+    float:left;
+    word-spacing: 0px;
+  }
+  body{
+    flex-direction: column;
+
+  }
+  .dataform{
+
+    font-size: small;
+}
+  input[type="text"], input[type="email"], textarea,  input[type="submit"]
+  {
+      font-size:small;
+  }
+}
+
