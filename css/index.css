@@ -48,6 +48,7 @@ ul {
     padding: 14px 16px;
     text-decoration: none;
     transition: background-color 1s ease;
+    cursor: pointer;
   }
 
   li a:hover {
@@ -65,18 +66,17 @@ p{
     padding: 15px;
     border-radius: 15px;
     background-image: linear-gradient(to top right,rgb(195, 225, 255) , rgb(255, 255, 255));
-
+    font-size: larger;
 }
 .imgcent{
     text-align: center;
-    float: right;
+    clear: left;
     background-color: rgb(255, 255, 255);
     padding: 15px;
     border-radius: 15px;
 }
 .imgcent img{
      width: 20vw;
-     align-items: center;
      vertical-align: middle;
 }
 .splash{
@@ -209,6 +209,9 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
   }
   h1{
     font-size: 1em;
+  }
+  p{
+    font-size: large;
   }
 }
 
