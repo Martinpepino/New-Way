@@ -11,6 +11,7 @@ h1{
   margin: 50px;
   text-align: center;
   color:darkblue;
+  font-size: 1.5em;
 }
 
 nav{
@@ -72,7 +73,11 @@ p{
     background-color: rgb(255, 255, 255);
     padding: 15px;
     border-radius: 15px;
-    ;
+}
+.imgcent img{
+     width: 20vw;
+     align-items: center;
+     vertical-align: middle;
 }
 .splash{
     width: 80vw;
@@ -201,6 +206,9 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
   input[type="text"], input[type="email"], textarea,  input[type="submit"]
   {
       font-size:small;
+  }
+  h1{
+    font-size: 1em;
   }
 }
 
