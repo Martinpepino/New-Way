@@ -6,9 +6,11 @@ body{
     flex-direction:column;
     justify-content: space-between;
 }
-
+header{
+  background-color: white;
+}
 h1{
-  margin: 50px;
+  margin: 50px,50px,0px,50px;
   text-align: center;
   color:darkblue;
   font-size: 1.5em;
@@ -72,18 +74,35 @@ p{
     text-align: center;
     clear: left;
     background-color: rgb(255, 255, 255);
-    padding: 15px;
     border-radius: 15px;
 }
 .imgcent img{
-     width: 20vw;
+     width:20vw;
      vertical-align: middle;
 }
 .splash{
     width: 80vw;
 }
+button {
+  background: #3498db;
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 30px 10px 30px;
+  text-decoration: none;
+}
+
+button:hover {
+  background: #3cb0fd;
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
 .dataform{
-    margin-left: 35vw;
+    margin-left: 50px;
+    float:left;
     background-image: linear-gradient(to right,rgb(195, 225, 255) , white);
     padding: 15px;
     border-radius: 15px;
@@ -93,7 +112,7 @@ p{
     width: 30vw;
 }
 
-input[type="text"], input[type="email"], textarea,  input[type="submit"]
+input[type="text"], input[type="email"], textarea,  input[type="submit"], input[type="password"]
 {
     font-size:24px;
 }
@@ -113,9 +132,8 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
 }
 
 .imgtxt{
-    float:left;
-    margin-right: 20px;
-    clear: left;
+    float: right;
+    margin-right: 15px;
     width: 30vw;
 }
 
@@ -178,6 +196,27 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
   to {opacity: 1}
 }
 
+.mapa{
+  border:5px;
+  height: 30vh;
+  width:30vw; 
+  clear:right;
+  display: flex;
+  float: right;
+  margin-right: 15px;
+}
+.mapa iframe{
+  width: 30vw; 
+  height: 30vh;
+}
+.imgfrente{
+  display: flex;
+  clear: right;
+  float: right;
+  margin-right: 15px;
+  width: 30vw;
+}
+
 /* MEDIA QUERY */
 
 @media (max-width: 700px){
@@ -203,7 +242,7 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
 
     font-size: small;
 }
-  input[type="text"], input[type="email"], textarea,  input[type="submit"]
+  input[type="text"], input[type="email"], textarea,  input[type="submit"], input[type="password"]
   {
       font-size:small;
   }
@@ -213,5 +252,41 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"]
   p{
     font-size: large;
   }
+  .logo{
+    width: 40vw;
+}
+.banner{
+  position: static;
+  top: 0;
+  float: right;
+  width: 25vw;
+  vertical-align: middle;
+}
+
+.banner2{
+  position: static;
+  top: 0;
+  float: center;
+  width: 25vw;
+
+}
+button{
+  font-size: small;
+}
+.mapa{
+  clear: both;
+  width: 100vw;
+  margin: 15px;
+  margin-top: 50px;
+  float: none;
+}
+.mapa iframe{
+width: 90vw;
+height: 90vw;
+margin-top: 50px;
+}
+.imgfrente img{
+  display: none;
+}
 }
 

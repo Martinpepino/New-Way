@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<header>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
         <img class="banner" src="img/products.jpg" alt="Oficial Valvoline">
         <img class="banner2" src="img/oficial.jpg" alt="Oficial Valvoline">
     </div>
-</head>
+</header>
 
 <nav>
     <ul>
@@ -23,7 +23,7 @@
     <li><a onclick="mostrarnos()">Nosotros</a></li>
     <li><a onclick="mostrarserv()">Servicios</a></li>
     <li><a onclick="mostrarcont()">Contactenos</a></li>
-    <li><a href="">Iniciar sesion</a></li>
+    <li><a onclick="mostrarlogin()">Iniciar sesion</a></li>
     </ul>
 </nav>
 
@@ -40,7 +40,7 @@
 
             <div class="mySlides fade">
               <div class="numbertext">2 / 3</div>
-              <img src="/img/distribution.jpg" style="width:100%">
+              <img src="/img/frente 2.JPG" style="width:100%">
               <div class="text">New-Way distribuidor oficial Valvoline</div>
             </div>
 
@@ -60,6 +60,7 @@
             LLevamos mas de 30 años de experiencia en el rubro, garantizando la calidad de los productos
             y de nuestro servicios.
         </h1>
+        <img src="/img/Todos2.JPG" alt="Equipo de trabajo" style="width:100vw">
     </div>
 
 
@@ -68,26 +69,40 @@
             <p>Somos distribuidores oficiales. Contamos con nuestro propia logistica, garantizando la entrega en su domicilio sin ningun costo adicional.
             Nuestros grupo de ventas le brindara atencion personalizada.</p>
             <div class="imgcent">
-              <img src="https://1000logos.net/wp-content/uploads/2016/10/Bosch-logo.jpg" alt="bosch">
-              <img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/0013/9673/brand.gif?itok=gg4fxEHo" alt="valvoline">
-              <img src="https://www.ipone.com/assets/logo-hd.png" alt="ipone">
-              <img src="img/mahle.png" alt="mahle">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxx1TIx0O53uH6eN9q9NDW9AR3RP-4QqO0PZly1p1l-msjJ_jJYJM1Ta0tU9R7xiLr_w&usqp=CAU"  alt="sakura">
+              <img src="/img/Bosch.jpg" alt="bosch">
+              <img src="/img/valvoline.gif" alt="valvoline">
+              <img src="/img/ipone.png" alt="ipone">
+              <img src="/img/mahle.png" alt="mahle">
+              <img src="/img/sakura.jpg"  alt="sakura">
+              <img src="/img/toyota.png"  alt="toyota">
+              <img src="/img/Liquimoly.png"  alt="liquimoly">
+              <img src="/img/vw.png"  alt="vw">
+              <img src="/img/renault.jpg"  alt="renault">
+              <img src="/img/peugeot.jpg"  alt="peugeot">
+              <img src="/img/citroen.png"  alt="citroen">
+              <img src="/img/ford.png"  alt="ford">
+              <img src="/img/fiat.png"  alt="fiat">
+              <img src="/img/Chevrolet.png"  alt="chevrolet">
+              <img src="/img/haijiu.png"  alt="haijiu">
               </div>
               <div style="width:100vw; align-content: center; align-items: center;">
-                <img src="https://images.squarespace-cdn.com/content/v1/5bf65317266c07c1f751f4c9/1565323348599-CM6DW8G6AV81HSP6FYFS/ipone+collection+transparent+CHIMP.jpg"  style="width:90vw; float: center;" alt="ipone">  
+                <img src="/img/iponeprod.jpg"  style="width:90vw; float: center;" alt="ipone">  
               </div>
       </div>
 
-        <div  v-show="conta" id="llama">
-                  <p style="clear: both;  margin: 30px;">
+        <div  v-show="conta" id="llama" style="display:block;">
+          <div>
+            <img src="img/valvo2.jpg" alt="Aceite Valvoline" class="imgtxt">
+          </div>
+            <div>
+          <p>
                     Para obtener informacion sobre nuestros productos y servicios contactenos a traves del siguiente formulario o al telefono (011)
                     7519-5687 de lunes a viernes de 8 a 17hs.
                   </p>
-                  <img src="img/valvo2.jpg" alt="Aceite Valvoline" class="imgtxt">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d820.7463062983832!2d-58.70677072612219!3d-34.629813657928466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbf93ba5de033%3A0xbe9e57585047ac8f!2sDistribuidora%20New%20Way%20SRL!5e0!3m2!1ses-419!2sar!4v1680823021314!5m2!1ses-419!2sar" class="imgtxt" style="border:5px;margin-top: 10px;height: 30vw;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    <br><br>
-                    <form action="link" method="post" class="dataform" width="200px">
+                </div>
+                  <br><br>
+                  <div class="dataform">
+                    <form action="link" method="post"  width="200px">
                         <label for="name">Nombre :</label><br>
                         <input type="text" id="name" size="30" maxlength="20" placeholder="Ingrese su nombre" required>
                         <br><br>
@@ -105,6 +120,30 @@
                         <br><br>
                         <input type="submit" name="submit" id="submit" value="Enviar">
                     </form>
+                  </div>
+
+                <div class="imgfrente">
+                  <img src="/img/frente 1.JPG" style="width:30vw" alt="Nuestra empresa">
+                </div>
+                <div class="mapa">  
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d820.7463062983832!2d-58.70677072612219!3d-34.629813657928466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbf93ba5de033%3A0xbe9e57585047ac8f!2sDistribuidora%20New%20Way%20SRL!5e0!3m2!1ses-419!2sar!4v1680823021314!5m2!1ses-419!2sar"  style="" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+ 
+                  <br><br>
+                  </div>
+        <div v-show="login" id="clientes">
+          <p>
+          <form action="link" method="get" class="dataform" style="width:100vw; align-self: center;    margin-left: 20px;    padding: 15px;">
+            <label for="user">Usuario :</label>
+            <input type="text" id="user" size="30" maxlength="30" placeholder="Ingrese su usuario" required>
+            <br><br>
+            <label for="pass">Contraseña :</label>
+            <input type="password" id="pass" size="30" maxlength="30" placeholder="Ingrese su contraseña" required>
+            <br><br>
+            <button>Ingresar</button>
+            <button>Olvide mi contraseña</button>
+          </form>
+          </p>
         </div>
 </div> 
 </body>
@@ -132,7 +171,8 @@ let app = new Vue({
                 banner: true,
                 somos: false,
                 serv: false,
-                conta: false
+                conta: false,
+                login: false
             }
         });
 function mostrarinicio() {
@@ -140,6 +180,7 @@ function mostrarinicio() {
                 app.somos=false;
                 app.serv=false;
                 app.conta=false;
+                app.login=false;
                 document.getElementById("ini").classList.add('activar');
               };
             
@@ -148,6 +189,7 @@ function mostrarnos() {
                 app.somos=true;
                 app.serv=false;
                 app.conta=false;
+                app.login=false;
                 document.getElementById("noso").classList.add('activar');
               };
 
@@ -156,6 +198,7 @@ function mostrarserv() {
                 app.somos=false;
                 app.serv=true;
                 app.conta=false;
+                app.login=false;
                 document.getElementById("prod").classList.add('activar');
               };
 
@@ -164,7 +207,16 @@ function mostrarcont() {
                 app.somos=false;
                 app.serv=false;
                 app.conta=true;
+                app.login=false;
                 document.getElementById("llama").classList.add('activar');
+              };
+function mostrarlogin() {
+                app.banner=false;
+                app.somos=false;
+                app.serv=false;
+                app.conta=false;
+                app.login=true;
+                document.getElementById("clientes").classList.add('activar');
               };
 
               app.mount('#app')
