@@ -10,16 +10,21 @@ header{
   background-color: white;
 }
 h1{
-  margin: 50px,50px,0px,50px;
   text-align: center;
-  color:darkblue;
+  color:rgb(208, 208, 255);
   font-size: 1.5em;
+  background-image: url(/img/ValvolineBanner2.jpg);
+  background-size: contain;
+  background-repeat:round;
+  padding: 30px;
+  border-radius: 30px;
 }
-
+.appcontainer{
+  margin-top: 5px;
+}
 nav{
     font-family: 'Times New Roman', Times, serif;
     font-size: 32px;
-    padding: 15px;
     border-radius: 15px;
     word-spacing: 40px  ;
     position: sticky;
@@ -32,6 +37,7 @@ nav{
 
 ul {
     list-style-type: none;
+    width: 98vw;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -61,13 +67,12 @@ ul {
     float: right;
     word-spacing: 0px;
   }
-p{
+
+  p{
     margin-left: 15px;
-    margin-top: 15px;
-    background-color: rgb(195, 225, 255);
-    padding: 15px;
+    margin-top: 0px;
+    color:rgb(208, 208, 255);
     border-radius: 15px;
-    background-image: linear-gradient(to top right,rgb(195, 225, 255) , rgb(255, 255, 255));
     font-size: larger;
 }
 .imgcent{
@@ -133,15 +138,26 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
 
 .imgtxt{
     float: right;
-    margin-right: 15px;
+    margin-right: -10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
     width: 30vw;
+    border-radius: 25px;
+}
+
+.marco{
+  background-image: url(/img/ValvolineBanner2.jpg);
+  background-size: contain;
+  background-repeat:round;
+  padding: 30px;
+  border-radius: 30px;
 }
 
 * {box-sizing:border-box}
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 90vw;
+  max-width: 100vw;
   position: relative;
   margin: auto;
   z-index: 0;
@@ -151,7 +167,9 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
 .mySlides {
   display: none;
 }
-
+.marco{
+  padding: 10px;
+}
 
 /* Caption text */
 .text {
@@ -203,7 +221,6 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
   clear:right;
   display: flex;
   float: right;
-  margin-right: 15px;
 }
 .mapa iframe{
   width: 30vw; 
@@ -213,7 +230,6 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
   display: flex;
   clear: right;
   float: right;
-  margin-right: 15px;
   width: 30vw;
 }
 
@@ -227,6 +243,7 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
   nav{
       padding: 10px 0px;
       display: list-item;
+
       font-size: large;
   }
   li:last-child{
@@ -287,6 +304,9 @@ margin-top: 50px;
 }
 .imgfrente img{
   display: none;
+}
+.appcontainer{
+  margin-top: -5px;
 }
 }
 
