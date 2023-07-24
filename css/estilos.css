@@ -16,13 +16,39 @@
     box-shadow: 3px 4px 0px 0px #899599;
     text-shadow: 0px 1px 0px #e1e2ed;
     background:linear-gradient(#ededed, #bab1ba);
-    padding:16px 50px 16px 50px;
+    padding:16px 40px 16px 40px;
     margin:10px;
     text-decoration: none;
     text-align: center;
   }
   
   .boton1:hover {
+    background: linear-gradient(#bab1ba, #ededed);
+  }
+  .minboton1 {
+    font-size:13px;
+    font-family:Arial;
+    cursor: pointer;
+    width:140px;
+    height:50px;
+    border-width:1px;
+    color:#000000;
+    border-color:#d6bcd6;
+    font-weight:bold;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+    box-shadow: 3px 4px 0px 0px #899599;
+    text-shadow: 0px 1px 0px #e1e2ed;
+    background:linear-gradient(#ededed, #bab1ba);
+    padding:10px 20px 10px 20px;
+    margin:10px;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .minboton1:hover {
     background: linear-gradient(#bab1ba, #ededed);
   }
   body{

@@ -5,14 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="stylesheet" href="css/index.css">
+
 </head>
+
+
+
+
 <body>
     <main>
+        <img class="logo" src="img/Logo.gif" alt="Distribuidora New Way SRL"> 
+        <br><br>  
+        Cliente
+        <input type="text" class="txt" id="codcli" value="" readonly>            
+        Pedido #
+        <input type="text" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
+        <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
+        <a class="boton1">Ver pedidos</a>
+
         <div id="app" class="card">
-            <h1>Online store</h1>
-            <br>
-            <input type="text" class="txt" id="txtsearch" v-model="txtsearch" value="" placeholder="Ingrese una palabra clave">
-            <button class="boton1" v-on:click="buscar()">Buscar</button>
+            <input type="text" class="txt" style="width:40vw" id="txtsearch" v-model="txtsearch" value="" placeholder="Ingrese una palabra clave">
+            <a class="boton1" v-on:click="buscar()">Buscar</a>
             <br><br>
             <div v-if="error">
                 <p>Lo sentimos ........</p>
@@ -40,9 +53,11 @@
                                     <td scope="row">{{articulos.id_articulo}}</td>
                                     <td>{{articulos.rubro}}</td>
                                     <td>{{articulos.descripcion}}</td>
-                                    <td>{{articulos.precio}}</td>
+                                    <td>${{articulos.precio}}</td>
                                     <td>{{articulos.stock}}</td>
-                                    <td></td>
+                                    <td>
+                                        <a class="minboton1">Agregar al pedido</a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

@@ -5,7 +5,7 @@ const { createApp } = Vue
         articulos:[],
         url:'http://localhost:5000/store', 
         error:false,
-        cargando:true,
+        cargando:false,
         /*atributos para el guardar los valores del formulario */
         id_articulo:0,
         rubro:"", 
@@ -13,6 +13,7 @@ const { createApp } = Vue
         precio:0,
         stock:0,
         txtsearch:"",
+        pedido:0,
     }  
     },
     methods: {
@@ -29,19 +30,44 @@ const { createApp } = Vue
                 })
         },
         buscar() {
+            /* Defino los parametros de la busqueda por URL */
             const url = this.url+'/' + this.txtsearch;
                 var options = {
                     method: 'GET',
+                };
+            /* Chequeo que se ingreso un valor */
+            if (this.txtsearch == "" | this.txtsearch == 0) {
+                alert("Por favor ingrese un producto.")
+            } else {
+                /* Envio los parametros de la busqueda */
+                fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.articulos = data;
+                            this.cargando=false
+                        })
+                        .catch(err => {
+                            alert(err);
+                            this.error=true              
+                        })
+            }
+            },
+        nuevo() {
+            if (this.pedido == 0 | this.pedido == "") {
+                /* Si no hay un pedido activo creo uno nuevo */
+                return
+            } else {
+                /* Hay un pedido activo pido confirmacion */
+                let confirma = confirm("Hay un pedido activo. Desea crear uno nuevo?");
+                if (confirma == true) {
+                
+                } else {
+                    return false
                 }
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    this.articulos = data;
-                    this.cargando=false
-                })
+            }
+        }
         },
-    },
     created() {
-        this.fetchData(this.url)
+        /*this.fetchData(this.url)*/
     },
   }).mount('#app')

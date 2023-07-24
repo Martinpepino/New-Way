@@ -17,6 +17,7 @@ ma=Marshmallow(app)   #crea el objeto ma de de la clase Marshmallow
 # ---------fin configuracion-----------
 
 #definimos la tabla
+#Base de datos de articulos
 class Articulos(db.Model):
     id_articulo=db.Column(db.Integer, primary_key=True)
     rubro=db.Column(db.String(25))
@@ -29,8 +30,30 @@ class Articulos(db.Model):
         self.descripcion = descripcion
         self.precio = precio
         self.stock = stock
-
-    #Si hay mas tablas para crear las definimos aca
+#Base de datos de los pedidos de los clientes
+class Pedidos(db.Model):
+    id_pedido=db.Column(db.Integer, primary_key=True)
+    cod_cli=db.Column(db.Integer)
+    fecha=db.Column(db.DateTime)
+    estado=db.Column(db.String(1))
+    def __init__(self,id_pedido,cod_cli,fecha,estado):
+        self.id_pedido = id_pedido
+        self.cod_cli = cod_cli
+        self.fecha = fecha
+        self.estado = estado
+#Base de datos del detalle del pedido de los clientes
+class DetPedidos(db.Model):
+    id_pedido = db.Column(db.Integer, primary_key=True)
+    cod_art = db.Column(db.Integer)
+    descripcion = db.Column(db.String(40))
+    cantp = db.Column(db.Integer)
+    precio = db.Column(db.Integer)
+    def __init__(self,id_pedido,cod_art,descripcion,cantp,precio):
+        self.id_pedido = id_pedido
+        self.cod_art = cod_art
+        self.descripcion = descripcion
+        self.cantp = cantp
+        self.precio = precio
 
 with app.app_context():
     db.create_all() #Crea las tablas
@@ -42,15 +65,25 @@ class ArticulosSchema(ma.Schema):
 articulo_schema=ArticulosSchema() #El objeto para traer un producto
 articulos_schema=ArticulosSchema(many=True) #Trae muchos registro de producto
 
+class PedidosSchema(ma.Schema):
+    class Meta:
+        fields=('id_pedido','cod_cli','fecha','estado')
+    
+pedido_schema=PedidosSchema() #El objeto para traer un producto
+pedidos_schema=PedidosSchema(many=True) #Trae muchos registro de producto
 
+class DetPedidosSchema(ma.Schema):
+    class Meta:
+        fields=('id_pedido','cod_art','descripcion','cantp','precio')
+    
+detpedido_schema=DetPedidosSchema() #El objeto para traer un producto
+detpedidos_schema=DetPedidosSchema(many=True) #Trae muchos registro de producto
 
-#Creamos los endpoint
-#GET
-#POST
-#Delete
-#Put
+#--------------------------------------------------------------------------------------#
+#                                    Endpoints
+#--------------------------------------------------------------------------------------#
 
-#Get endpoint del get
+#Trae todos los articulos
 @app.route('/store',methods=['GET'])
 def get_Articulos():
     all_articulos = Articulos.query.all() #heredamos del db.model
@@ -58,23 +91,18 @@ def get_Articulos():
                                                 #Trae todos los registros de la tabla y los retornamos en un JSON
     return jsonify(result)
 
+#Realiza la busqueda inteligente
 @app.route('/store/<txtsearch>',methods=['GET'])
-def get_articulo(id):
-    articulo=Articulos.query.filter(descripcion == 17011)
-    return articulo_schema.jsonify(articulo)   # retorna el JSON de un producto recibido como parametro
+def get_articulo(txtsearch):
+    all_articulos = Articulos.query.filter(Articulos.descripcion.ilike(f'%{txtsearch}%') | Articulos.rubro.ilike(f'%{txtsearch}%') | Articulos.id_articulo.ilike(f'%{txtsearch}%')).all()
+    result= articulos_schema.dump(all_articulos) #lo heredamos de ma.schema
+                                                #Trae todos los registros de la tabla y los retornamos en un JSON
+    return jsonify(result)
 
-@app.route('/store', methods=['POST']) # crea ruta o endpoint
-def create_user():
-    #print(request.json)  # request.json contiene el json que envio el cliente
-    id_articulo=request.json['id_articulo']
-    rubro=request.json['rubro']
-    descripcion=request.json['descripcion']
-    precio=request.json['precio']
-    stock=request.json['stock']
-    new_articulo=Articulo(id_articulo,rubro,descripcion,precio,stock)
-    db.session.add(new_articulo)
-    db.session.commit()
-    return articulo_schema.jsonify(new_articulo)
+
+
+
+
 
 
 #Programa Principal
