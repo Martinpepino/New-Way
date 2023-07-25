@@ -15,15 +15,17 @@
 <body>
     <main>
         <img class="logo" src="img/Logo.gif" alt="Distribuidora New Way SRL"> 
-        <br><br>  
-        Cliente
-        <input type="text" class="txt" id="codcli" value="" readonly>            
-        Pedido #
-        <input type="text" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
-        <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
-        <a class="boton1">Ver pedidos</a>
+
 
         <div id="app" class="card">
+            <br><br>  
+            Cliente
+            <input type="text" class="txt" id="cod_cli" v-model="cod_cli" value="" readonly>            
+            Pedido #
+            <input type="text" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
+            <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
+            <a class="boton1">Ver pedidos</a>
+            <br><br>
             <input type="text" class="txt" style="width:40vw" id="txtsearch" v-model="txtsearch" value="" placeholder="Ingrese una palabra clave">
             <a class="boton1" v-on:click="buscar()">Buscar</a>
             <br><br>

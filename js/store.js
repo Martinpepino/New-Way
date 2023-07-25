@@ -14,6 +14,10 @@ const { createApp } = Vue
         stock:0,
         txtsearch:"",
         pedido:0,
+        cod_cli:1210,
+        fecha:"",
+        estado:"",
+        id_pedido:0,
     }  
     },
     methods: {
@@ -54,8 +58,28 @@ const { createApp } = Vue
             },
         nuevo() {
             if (this.pedido == 0 | this.pedido == "") {
-                /* Si no hay un pedido activo creo uno nuevo */
-                return
+                /* Si no hay un pedido activo creo uno nuevo fields=('id_pedido','cod_cli','fecha','estado')*/
+                let date = new Date();
+                let user = {
+                    cod_cli:this.cod_cli,
+                    fecha: date,
+                    estado:"A"
+                };
+                var options = {
+                    body:JSON.stringify(user),
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                };
+                alert(JSON.stringify(user));
+                fetch(this.url, options)
+                .then(function () {
+                    alert("Se ha creado un pedido nuevo")
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error al Grabar")
+                })   
+                
             } else {
                 /* Hay un pedido activo pido confirmacion */
                 let confirma = confirm("Hay un pedido activo. Desea crear uno nuevo?");

@@ -2,6 +2,7 @@ from flask import Flask,jsonify,request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from datetime import datetime
 
 app=Flask(__name__) #Crea el objeto app de la clase Flask
 CORS(app) #permite acceder desde el front al back
@@ -34,10 +35,9 @@ class Articulos(db.Model):
 class Pedidos(db.Model):
     id_pedido=db.Column(db.Integer, primary_key=True)
     cod_cli=db.Column(db.Integer)
-    fecha=db.Column(db.DateTime)
+    fecha=db.Column(db.String(19))
     estado=db.Column(db.String(1))
-    def __init__(self,id_pedido,cod_cli,fecha,estado):
-        self.id_pedido = id_pedido
+    def __init__(self,cod_cli,fecha,estado):
         self.cod_cli = cod_cli
         self.fecha = fecha
         self.estado = estado
@@ -62,22 +62,22 @@ class ArticulosSchema(ma.Schema):
     class Meta:
         fields=('id_articulo','rubro','descripcion','precio','stock')
     
-articulo_schema=ArticulosSchema() #El objeto para traer un producto
-articulos_schema=ArticulosSchema(many=True) #Trae muchos registro de producto
+articulo_schema=ArticulosSchema()
+articulos_schema=ArticulosSchema(many=True)
 
 class PedidosSchema(ma.Schema):
     class Meta:
         fields=('id_pedido','cod_cli','fecha','estado')
     
-pedido_schema=PedidosSchema() #El objeto para traer un producto
-pedidos_schema=PedidosSchema(many=True) #Trae muchos registro de producto
+pedido_schema=PedidosSchema()
+pedidos_schema=PedidosSchema(many=True)
 
 class DetPedidosSchema(ma.Schema):
     class Meta:
         fields=('id_pedido','cod_art','descripcion','cantp','precio')
     
-detpedido_schema=DetPedidosSchema() #El objeto para traer un producto
-detpedidos_schema=DetPedidosSchema(many=True) #Trae muchos registro de producto
+detpedido_schema=DetPedidosSchema()
+detpedidos_schema=DetPedidosSchema(many=True)
 
 #--------------------------------------------------------------------------------------#
 #                                    Endpoints
@@ -99,11 +99,16 @@ def get_articulo(txtsearch):
                                                 #Trae todos los registros de la tabla y los retornamos en un JSON
     return jsonify(result)
 
-
-
-
-
-
+# Crea un pedido nuevo
+@app.route('/store', methods=['POST']) 
+def create_pedido():
+    cod_cli=request.json['cod_cli']
+    fecha=request.json['fecha']
+    estado=request.json['estado']  
+    new_pedido=Pedidos(cod_cli,fecha,estado)
+    db.session.add(new_pedido)
+    db.session.commit()
+    return pedido_schema.jsonify(new_pedido)
 
 #Programa Principal
 if __name__ == '__main__':
