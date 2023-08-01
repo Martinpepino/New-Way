@@ -84,6 +84,7 @@ ul {
 .imgcent img{
      width:20vw;
      vertical-align: middle;
+     padding: 10px;
 }
 .splash{
     width: 80vw;
