@@ -43,7 +43,8 @@ class Pedidos(db.Model):
         self.estado = estado
 #Base de datos del detalle del pedido de los clientes
 class DetPedidos(db.Model):
-    id_pedido = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    id_pedido = db.Column(db.Integer)
     cod_art = db.Column(db.Integer)
     descripcion = db.Column(db.String(40))
     cantp = db.Column(db.Integer)
@@ -74,7 +75,7 @@ pedidos_schema=PedidosSchema(many=True)
 
 class DetPedidosSchema(ma.Schema):
     class Meta:
-        fields=('id_pedido','cod_art','descripcion','cantp','precio')
+        fields=('id','id_pedido','cod_art','descripcion','cantp','precio')
     
 detpedido_schema=DetPedidosSchema()
 detpedidos_schema=DetPedidosSchema(many=True)
@@ -108,7 +109,22 @@ def create_pedido():
     new_pedido=Pedidos(cod_cli,fecha,estado)
     db.session.add(new_pedido)
     db.session.commit()
-    return pedido_schema.jsonify(new_pedido)
+    new_pedido=pedido_schema.jsonify(new_pedido)
+    return  new_pedido
+
+# Agrega un producto al carrito activo
+@app.route('/store/pedido/', methods=['POST']) 
+def create_carrito():
+    id_pedido=request.json['id_pedido']
+    cod_art=request.json['cod_art']
+    descripcion=request.json['descripcion']  
+    cantp=request.json['cantp']
+    precio=request.json['precio']
+    new_carrito=DetPedidos(id_pedido,cod_art,descripcion,cantp,precio)
+    db.session.add(new_carrito)
+    db.session.commit()
+    new_carrito=detpedido_schema.jsonify(new_carrito)
+    return  new_carrito
 
 #Programa Principal
 if __name__ == '__main__':

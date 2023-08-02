@@ -20,9 +20,11 @@
         <div id="app" class="card">
             <br><br>  
             Cliente
-            <input type="text" class="txt" id="cod_cli" v-model="cod_cli" value="" readonly>            
+            <input type="text" size="6" class="txt" id="cod_cli" v-model="cod_cli" value="" readonly>            
             Pedido #
-            <input type="text" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
+            <input type="text" size="11" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
+            Total $
+            <input type="text" size="16" class="txt" id="totalpedido" v-model="total" value="" readonly>    
             <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
             <a class="boton1">Ver pedidos</a>
             <br><br>
@@ -58,7 +60,7 @@
                                     <td>${{articulos.precio}}</td>
                                     <td>{{articulos.stock}}</td>
                                     <td>
-                                        <a class="minboton1">Agregar al pedido</a>
+                                        <a class="minboton1" v-on:click="agregar(articulos.id_articulo,articulos.descripcion,articulos.precio)">Agregar al pedido</a>
                                     </td>
                                 </tr>
                             </tbody>
