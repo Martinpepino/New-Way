@@ -16,12 +16,24 @@
     box-shadow: 3px 4px 0px 0px #899599;
     text-shadow: 0px 1px 0px #e1e2ed;
     background:linear-gradient(#ededed, #bab1ba);
-    padding:16px 40px 16px 40px;
+    padding:16px 30px 16px 30px;
     margin:10px;
     text-decoration: none;
     text-align: center;
   }
-  
+  .textINFO {
+    padding: 5px;
+    font-size: 20px;
+    border-width: 0px;
+    border-color: #CCCCCC;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    color: #000000;
+    border-style: hidden;
+    border-radius: 0px;
+
+  }
   .boton1:hover {
     background: linear-gradient(#bab1ba, #ededed);
   }
@@ -42,8 +54,8 @@
     box-shadow: 3px 4px 0px 0px #899599;
     text-shadow: 0px 1px 0px #e1e2ed;
     background:linear-gradient(#ededed, #bab1ba);
-    padding:10px 20px 10px 20px;
-    margin:10px;
+    padding:5px 10px 5px 10px;
+    margin:5px;
     text-decoration: none;
     text-align: center;
   }
@@ -99,8 +111,11 @@
     box-shadow: 3px 4px 0px 0px #8a2a21;
     text-shadow: 0px 1px 0px #810e05;
     background:linear-gradient(#c62d1f, #f24437);
+    padding: 5px 15px 5px 15px;
   }
-  
+  .navmin {
+    margin: 30px;
+  }
   .boton2:hover {
     background: linear-gradient(#f24437, #c62d1f);
   }

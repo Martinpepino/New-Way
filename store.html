@@ -8,67 +8,166 @@
     <link rel="stylesheet" href="css/index.css">
 
 </head>
-
-
-
-
 <body>
     <main>
-        <img class="logo" src="img/Logo.gif" alt="Distribuidora New Way SRL"> 
 
 
         <div id="app" class="card">
-            <br><br>  
-            Cliente
-            <input type="text" size="6" class="txt" id="cod_cli" v-model="cod_cli" value="" readonly>            
-            Pedido #
-            <input type="text" size="11" class="txt" id="pedidoactual" v-model="pedido" value="" readonly>
-            Total $
-            <input type="text" size="16" class="txt" id="totalpedido" v-model="total" value="" readonly>    
-            <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
-            <a class="boton1">Ver pedidos</a>
-            <br><br>
-            <input type="text" class="txt" style="width:40vw" id="txtsearch" v-model="txtsearch" value="" placeholder="Ingrese una palabra clave">
-            <a class="boton1" v-on:click="buscar()">Buscar</a>
-            <br><br>
-            <div v-if="error">
-                <p>Lo sentimos ........</p>
+            <img class="logo" src="img/Logo.gif" alt="Distribuidora New Way SRL" style="float: right;"> 
+            <!--Pantalla del buscador-->
+            <div v-show="buscador">
+                <br><br>  
+                Cliente
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>            
+                <label v-show="pedidoblank" for="pedidoactual"> Pedido # </label>
+                <input type="text" size="11" class="textINFO" id="pedidoactual" v-show="pedidoblank" v-model="pedido" value="" readonly>
+                <label v-show="pedidoblank" for="totalpedido">Total $ </label>
+                <input type="text" size="16" class="textINFO" id="totalpedido" v-show="pedidoblank" v-model="total" value="" readonly>    
+                <br><br> 
+                <div class="navmin">
+                    <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
+                    <a class="boton1" v-show="pedidoblank" v-on:click="verpedidos(pedido)">Ver detalle del pedido</a>
+                    <a class="boton1" v-on:click="mispedidos(cod_cli)">Mis pedidos</a>
+                </div>
+                <br><br>
+                <input type="text" class="txt" style="width:40vw" id="txtsearch" v-model="txtsearch" value="" placeholder="Ingrese una palabra clave">
+                <a class="boton1" v-on:click="buscar()">Buscar</a>
+                <br><br>
+                <div v-if="error">
+                    <p>Lo sentimos ........</p>
+                </div>
+                <div v-else>
+                    <section v-if="cargando">
+                        <div class="spinner-border"></div>
+                        <p>Cargando .....</p>
+                    </section>
+                    <section v-else>
+                        <div class="table-responsive">
+                            <table v-show="tablaarticulos" class="tabla">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Codigo</th>
+                                        <th scope="col">Rubro</th>
+                                        <th scope="col">Descripcion</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class=""  v-for="articulos in articulos" :key="articulos.id_articulo">
+                                        <td scope="row">{{articulos.id_articulo}}</td>
+                                        <td>{{articulos.rubro}}</td>
+                                        <td>{{articulos.descripcion}}</td>
+                                        <td>${{articulos.precio}}</td>
+                                        <td>{{articulos.stock}}</td>
+                                        <td>
+                                            <a class="minboton1" v-on:click="agregar(articulos.id_articulo,articulos.rubro,articulos.descripcion,articulos.precio)">Agregar al pedido</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
             </div>
-            <div v-else>
-                <section v-if="cargando">
-                    <div class="spinner-border"></div>
-                    <p>Cargando .....</p>
-                </section>
-                <section v-else>
-                    <div class="table-responsive">
-                        <table class="tabla">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Rubro</th>
-                                    <th scope="col">Descripcion</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Stock</th>
-                                    <th scope="col">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class=""  v-for="articulos in articulos" :key="articulos.id_articulo">
-                                    <td scope="row">{{articulos.id_articulo}}</td>
-                                    <td>{{articulos.rubro}}</td>
-                                    <td>{{articulos.descripcion}}</td>
-                                    <td>${{articulos.precio}}</td>
-                                    <td>{{articulos.stock}}</td>
-                                    <td>
-                                        <a class="minboton1" v-on:click="agregar(articulos.id_articulo,articulos.descripcion,articulos.precio)">Agregar al pedido</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+
+            <!--Pantalla detalle del carrito-->
+
+            <div v-show="carrito">
+                <br><br>  
+                Cliente
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>            
+                Pedido #
+                <input type="text" size="11" class="textINFO" id="pedidoactual" v-model="pedido" value="" readonly>
+                Total $
+                <input type="text" size="16" class="textINFO" id="totalpedido" v-model="total" value="" readonly>    
+                <br><br> 
+                <div class="navmin">
+                    <a class="boton1" v-on:click="cerrar(pedido)">Cerrar pedido</a>
+                    <a class="boton1" v-on:click="verbuscador()">Ver buscador</a>
+                    <a class="boton1" v-on:click="mispedidos(cod_cli)">Mis pedidos</a>                
+                </div>
+                <div class="table-responsive">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th scope="col" hidden="true">Id</th>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Rubro</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class=""  v-for="detpedidos in detpedidos" :key="detpedidos.id">
+                               <td scope="row" hidden="true">{{detpedidos.id}}</td>
+                                <td>{{detpedidos.cod_art}}</td>
+                                <td>{{detpedidos.rubro}}</td>
+                                <td>{{detpedidos.descripcion}}</td>
+                                <td>
+                                    {{detpedidos.cantp}} unidades
+                                    <a class="minboton1" v-if="openstatus == 'A'" v-on:click="modifcant(detpedidos.id,detpedidos.cantp,detpedidos.precio)">Editar</a>
+                                </td>
+                                <td>${{detpedidos.precio}}</td>
+                                <td>${{detpedidos.subtotal}}</td>
+                                <td>
+                                    <a class="boton2" v-if="openstatus == 'A'" v-on:click="quitar(detpedidos.id)">X - Borrar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--Pantalla listado de pedidos-->
+
+            <div v-show="statuspedidos">
+                <br><br>  
+                Cliente
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>              
+                <br><br> 
+                <div class="navmin">
+                    <a class="boton1" v-on:click="verbuscador()">Continuar pedido</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th scope="col">Numero</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class=""  v-for="pedidos in pedidos" :key="pedidos.id_pedido">
+                               <td scope="row">Pedido {{pedidos.id_pedido}}</td>
+                                <td>{{pedidos.fecha}}</td>
+                                <td>
+                                    <div v-if="pedidos.estado == 'A'">
+                                        Abierto
+                                        <a class="minboton1" v-on:click="cerrar(pedidos.id_pedido)">Cerrar</a>
+                                    </div>
+                                    <div v-if="pedidos.estado == 'C'">
+                                        Cerrado
+                                    </div>                                   
+                                </td>
+                                <td>
+                                    <a class="minboton1" v-if="pedidos.estado == 'A'" v-on:click="cargar(pedidos.id_pedido)">Cargar</a>
+                                    <a class="minboton1" v-on:click="verpedidos(pedidos.id_pedido,pedidos.estado)">Ver detalle</a>
+                                    <a class="minboton1" v-if="pedidos.estado == 'A'" v-on:click="eliminarpedidos(pedidos.id_pedido)">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
     </main>
 
   </script>

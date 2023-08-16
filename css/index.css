@@ -309,5 +309,9 @@ margin-top: 50px;
 .appcontainer{
   margin-top: -5px;
 }
+.imgcent {
+  padding:0;
+  margin: 0;
+}
 }
 

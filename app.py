@@ -17,7 +17,7 @@ ma=Marshmallow(app)   #crea el objeto ma de de la clase Marshmallow
 
 # ---------fin configuracion-----------
 
-#definimos la tabla
+#Definicion y creacion de las tablas
 #Base de datos de articulos
 class Articulos(db.Model):
     id_articulo=db.Column(db.Integer, primary_key=True)
@@ -46,15 +46,31 @@ class DetPedidos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_pedido = db.Column(db.Integer)
     cod_art = db.Column(db.Integer)
+    rubro=db.Column(db.String(25))
     descripcion = db.Column(db.String(40))
     cantp = db.Column(db.Integer)
     precio = db.Column(db.Integer)
-    def __init__(self,id_pedido,cod_art,descripcion,cantp,precio):
+    subtotal = db.Column(db.Integer)    
+    def __init__(self,id_pedido,cod_art,rubro,descripcion,cantp,precio,subtotal):
         self.id_pedido = id_pedido
         self.cod_art = cod_art
+        self.rubro = rubro
         self.descripcion = descripcion
         self.cantp = cantp
         self.precio = precio
+        self.subtotal = subtotal
+
+#Base de datos clientes
+class Clientes(db.Model):
+    id_cliente = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    passw = db.Column(db.String(256))
+    status = db.Column(db.String(1))
+    def __init__(self,id_cliente,name,passw,status):
+        self.id_cliente = id_cliente
+        self.name = name
+        self.passw = passw
+        self.status = status
 
 with app.app_context():
     db.create_all() #Crea las tablas
@@ -75,10 +91,17 @@ pedidos_schema=PedidosSchema(many=True)
 
 class DetPedidosSchema(ma.Schema):
     class Meta:
-        fields=('id','id_pedido','cod_art','descripcion','cantp','precio')
+        fields=('id','id_pedido','cod_art','rubro','descripcion','cantp','precio','subtotal')
     
 detpedido_schema=DetPedidosSchema()
 detpedidos_schema=DetPedidosSchema(many=True)
+
+class ClientesSchema(ma.Schema):
+    class Meta:
+        fields=('id_cliente','name','passw','status')
+    
+cliente_schema=ClientesSchema()
+clientes_schema=ClientesSchema(many=True)
 
 #--------------------------------------------------------------------------------------#
 #                                    Endpoints
@@ -95,7 +118,7 @@ def get_Articulos():
 #Realiza la busqueda inteligente
 @app.route('/store/<txtsearch>',methods=['GET'])
 def get_articulo(txtsearch):
-    all_articulos = Articulos.query.filter(Articulos.descripcion.ilike(f'%{txtsearch}%') | Articulos.rubro.ilike(f'%{txtsearch}%') | Articulos.id_articulo.ilike(f'%{txtsearch}%')).all()
+    all_articulos = Articulos.query.filter(Articulos.descripcion.ilike(f'%{txtsearch}%') | Articulos.rubro.ilike(f'%{txtsearch}%') | Articulos.id_articulo.ilike(f'%{txtsearch}%')).order_by(Articulos.rubro , Articulos.descripcion).all()
     result= articulos_schema.dump(all_articulos) #lo heredamos de ma.schema
                                                 #Trae todos los registros de la tabla y los retornamos en un JSON
     return jsonify(result)
@@ -117,14 +140,66 @@ def create_pedido():
 def create_carrito():
     id_pedido=request.json['id_pedido']
     cod_art=request.json['cod_art']
+    rubro=request.json['rubro']
     descripcion=request.json['descripcion']  
     cantp=request.json['cantp']
     precio=request.json['precio']
-    new_carrito=DetPedidos(id_pedido,cod_art,descripcion,cantp,precio)
+    subtotal=request.json['subtotal']
+    new_carrito=DetPedidos(id_pedido,cod_art,rubro,descripcion,cantp,precio,subtotal)
     db.session.add(new_carrito)
     db.session.commit()
     new_carrito=detpedido_schema.jsonify(new_carrito)
     return  new_carrito
+
+# Muestra el detalle del pedido
+@app.route('/store/detalle/<pedido>', methods=['GET']) 
+def detalle_pedido(pedido):
+    all_detalle = DetPedidos.query.filter(DetPedidos.id_pedido == pedido).all()
+    result= detpedidos_schema.dump(all_detalle) #lo heredamos de ma.schema
+                                                #Trae todos los registros de la tabla y los retornamos en un JSON
+    return jsonify(result)
+
+# Elimina un producto del carrito
+@app.route('/store/<id>',methods=['DELETE'])
+def delete_prod(id):
+    producto=DetPedidos.query.get(id)
+    db.session.delete(producto)
+    db.session.commit()
+    return detpedidos_schema.jsonify(producto)   # me devuelve un json con el registro eliminado
+
+# Muestra todos los pedidos (STATUS)
+@app.route('/store/status/<cliente>', methods=['GET']) 
+def detalle_status(cliente):
+    all_detalle = Pedidos.query.filter(Pedidos.cod_cli == cliente, Pedidos.estado != "E").all()
+    result= pedidos_schema.dump(all_detalle) #lo heredamos de ma.schema  and 
+                                                #Trae todos los registros de la tabla y los retornamos en un JSON
+    return jsonify(result)
+
+# Eliminar pedido (No lo borro, le cambio el estado a E eliminado)
+@app.route('/store/pedido/<id>' ,methods=['PUT'])
+def delete_pedido(id):
+    user=Pedidos.query.get(id)
+    user.estado="E"
+    db.session.commit()
+    return pedidos_schema.jsonify(user)
+
+# Modificar cantidad detalle articulo
+@app.route('/store/modifica/<id>' ,methods=['PUT'])
+def modifica_detpedido(id):
+    detalle=DetPedidos.query.get(id)
+    detalle.cantp=request.json['cantp']
+    detalle.precio=request.json['precio']
+    detalle.subtotal=request.json['subtotal']
+    db.session.commit()
+    return detpedido_schema.jsonify(detalle)
+
+# Cerrar pedido
+@app.route('/store/cerrar/<id>' ,methods=['PUT'])
+def close_pedido(id):
+    user=Pedidos.query.get(id)
+    user.estado="C"
+    db.session.commit()
+    return pedidos_schema.jsonify(user)
 
 #Programa Principal
 if __name__ == '__main__':
