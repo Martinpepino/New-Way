@@ -65,7 +65,7 @@ class Clientes(db.Model):
     id_cliente = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     passw = db.Column(db.String(256))
-    status = db.Column(db.String(1))
+    status = db.Column(db.Integer)
     def __init__(self,id_cliente,name,passw,status):
         self.id_cliente = id_cliente
         self.name = name
@@ -200,6 +200,39 @@ def close_pedido(id):
     user.estado="C"
     db.session.commit()
     return pedidos_schema.jsonify(user)
+
+#Login
+@app.route('/login/<cliente>/<ps>',methods=['GET'])
+def autorizar(cliente,ps):
+    # Chequeo si el password y el usuario son correctos y si tiene menos de 5 intentos
+    cli = Clientes.query.filter(Clientes.id_cliente == cliente , Clientes.passw == ps, Clientes.status < 5).all()
+    result= clientes_schema.dump(cli)
+    #Si no coinciden el usuario y el password
+    if result==[]:
+        # Chequeo si el usuario existe y si tiene menos de 5 intentos
+        cli = Clientes.query.filter(Clientes.id_cliente == cliente, Clientes.status < 5).all()
+        result= clientes_schema.dump(cli)
+        # Si no existe o si intento + de 5 no pasa, debe reintentar
+        if result==[]:
+            print("Usuario bloqueado o inexistente")
+            return jsonify(result)
+        # Si existe tiene 5 intentos
+        else:
+            cli=Clientes.query.get(cliente)
+            cli.status=cli.status+1
+            numint= 5 - cli.status
+            print("Clave incorrecta. " + str(numint) + " intentos restantes")
+            db.session.commit()
+            result=[]
+            return jsonify(result)
+    else:
+        print("Acceso autorizado")
+        # Si usuario y clave son correctos reseteo el status
+        cli=Clientes.query.get(cliente)
+        cli.status=0
+        db.session.commit()
+        # Retribuyo los datos
+        return jsonify(result)
 
 #Programa Principal
 if __name__ == '__main__':

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Way SRL</title>
+    <link rel="icon" href="img/Logoicon.ico">
+    <link rel="stylesheet" href="css/index.css">
+
+</header>
+    <body>
+        <main>
+        <div id="log" class="marco">
+                <label for="user">Numero de cliente :</label>
+                <input type="text" id="user" v-model="usuario" size="30" maxlength="30" placeholder="Ingrese su numero de cliente" required>
+                <br><br>
+                <label for="pass">Contraseña :</label>
+                <input type="password" id="pass" v-model="clave" size="30" maxlength="30" placeholder="Ingrese su contraseña" required>
+                <br><br>
+                <button v-on:click="autorizar(usuario,clave)">Ingresar</button>
+                <button>Olvide mi contraseña</button>
+        </div>
+        </main>
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->
+        <script src="./js/auth.js"></script>
+    </body>
+</html>
