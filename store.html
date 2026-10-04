@@ -18,7 +18,9 @@
             <div v-show="buscador">
                 <br><br>  
                 Cliente
-                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>            
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>     
+                <input type="text" style="padding:15px" size="26" class="textINFO" id="cod_name" v-model="cod_name" value="" readonly>        
+                <br><br>
                 <label v-show="pedidoblank" for="pedidoactual"> Pedido # </label>
                 <input type="text" size="11" class="textINFO" id="pedidoactual" v-show="pedidoblank" v-model="pedido" value="" readonly>
                 <label v-show="pedidoblank" for="totalpedido">Total $ </label>
@@ -26,7 +28,7 @@
                 <br><br> 
                 <div class="navmin">
                     <a class="boton1" v-on:click="nuevo()">Nuevo pedido</a>
-                    <a class="boton1" v-show="pedidoblank" v-on:click="verpedidos(pedido)">Ver detalle del pedido</a>
+                    <a class="boton1" v-show="pedidoblank" v-on:click="verpedidos(pedido,openstatus)">Ver detalle del pedido</a>
                     <a class="boton1" v-on:click="mispedidos(cod_cli)">Mis pedidos</a>
                 </div>
                 <br><br>
@@ -77,14 +79,16 @@
             <div v-show="carrito">
                 <br><br>  
                 Cliente
-                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>            
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>  
+                <input type="text" size="26" class="textINFO" id="cod_name" v-model="cod_name" value="" readonly>           
+                <br><br>
                 Pedido #
                 <input type="text" size="11" class="textINFO" id="pedidoactual" v-model="pedido" value="" readonly>
                 Total $
                 <input type="text" size="16" class="textINFO" id="totalpedido" v-model="total" value="" readonly>    
                 <br><br> 
                 <div class="navmin">
-                    <a class="boton1" v-on:click="cerrar(pedido)">Cerrar pedido</a>
+                    <a class="boton1" v-if="openstatus=='A'" v-on:click="cerrar(pedido)">Cerrar pedido</a>
                     <a class="boton1" v-on:click="verbuscador()">Ver buscador</a>
                     <a class="boton1" v-on:click="mispedidos(cod_cli)">Mis pedidos</a>                
                 </div>
@@ -128,10 +132,11 @@
             <div v-show="statuspedidos">
                 <br><br>  
                 Cliente
-                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>              
+                <input type="text" size="6" class="textINFO" id="cod_cli" v-model="cod_cli" value="" readonly>
+                <input type="text" size="26" class="textINFO" id="cod_name" v-model="cod_name" value="" readonly>               
                 <br><br> 
                 <div class="navmin">
-                    <a class="boton1" v-on:click="verbuscador()">Continuar pedido</a>
+                    <a class="boton1" v-on:click="verpedidos(pedido,openstatus)">Continuar pedido</a>
                 </div>
                 <div class="table-responsive">
                     <table class="tabla">

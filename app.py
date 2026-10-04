@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from datetime import datetime
+import webbrowser 
 
 app=Flask(__name__) #Crea el objeto app de la clase Flask
 CORS(app) #permite acceder desde el front al back
@@ -215,24 +216,30 @@ def autorizar(cliente,ps):
         # Si no existe o si intento + de 5 no pasa, debe reintentar
         if result==[]:
             print("Usuario bloqueado o inexistente")
-            return jsonify(result)
+            noautorizado=Clientes('','','Usuario bloqueado o inexistente',0)
+            noautorizado=cliente_schema.jsonify(noautorizado)
+            return  noautorizado
         # Si existe tiene 5 intentos
         else:
             cli=Clientes.query.get(cliente)
             cli.status=cli.status+1
             numint= 5 - cli.status
-            print("Clave incorrecta. " + str(numint) + " intentos restantes")
+            est="Clave incorrecta. " + str(numint) + " intentos restantes"
+            print(est)
             db.session.commit()
-            result=[]
-            return jsonify(result)
+            noautorizado=Clientes('','',est,0)
+            noautorizado=cliente_schema.jsonify(noautorizado)
+            return  noautorizado
     else:
         print("Acceso autorizado")
         # Si usuario y clave son correctos reseteo el status
         cli=Clientes.query.get(cliente)
         cli.status=0
         db.session.commit()
-        # Retribuyo los datos
-        return jsonify(result)
+        # fields=('id_cliente','name','passw','status')
+        autorizado=Clientes(cliente,cli.name,'','http://127.0.0.1:5500/store.html')
+        autorizado=cliente_schema.jsonify(autorizado)
+        return  autorizado 
 
 #Programa Principal
 if __name__ == '__main__':

@@ -233,6 +233,18 @@ input[type="text"], input[type="email"], textarea,  input[type="submit"], input[
   float: right;
   width: 30vw;
 }
+.textestado {
+  padding: 10px;
+  font-size: 5px;
+  border-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  color: #ff0000;
+  border-style: hidden;
+  border-radius: 0px;
+}
 
 /* MEDIA QUERY */
 

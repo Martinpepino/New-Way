@@ -12,15 +12,18 @@
     <body>
         <main>
         <div id="log" class="marco">
-                <label for="user">Numero de cliente :</label>
+                <label for="user" style="color:azure">Numero de cliente :</label>
                 <input type="text" id="user" v-model="usuario" size="30" maxlength="30" placeholder="Ingrese su numero de cliente" required>
-                <br><br>
-                <label for="pass">Contraseña :</label>
+                <br>
+                <br>
+                <label for="pass" style="color:azure">Contraseña :</label>
                 <input type="password" id="pass" v-model="clave" size="30" maxlength="30" placeholder="Ingrese su contraseña" required>
-                <br><br>
+                <br>
+                 <br>
                 <button v-on:click="autorizar(usuario,clave)">Ingresar</button>
                 <button>Olvide mi contraseña</button>
-        </div>
+                <input size="70" style="font-size: 15px;"type="text" class="textestado" id="estado" v-show="statusshow" v-model="status" value="" readonly>   
+            </div>
         </main>
 
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><!--Link de VUE-->

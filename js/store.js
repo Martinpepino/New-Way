@@ -24,6 +24,7 @@ const { createApp } = Vue
         over:0,
         subtotal:0,
         openstatus:"A",
+        cod_name:"",
         /* pantallas */
         error:false,
         cargando:false,
@@ -39,7 +40,7 @@ const { createApp } = Vue
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    this.articulos = data;
+                    this.cod_cli = data;
                     this.cargando=false
                 })
                 .catch(err => {
@@ -197,7 +198,10 @@ const { createApp } = Vue
             /* Oculto la pantalla del detalle y presento el buscador */
             this.carrito=false;
             this.buscador=true;      
-            this.statuspedidos=false;      
+            this.statuspedidos=false;  
+            if (this.pedido==0) {
+                this.pedidoblank=false;
+            };   
         },
         /* Genera un pedido nuevo */
         nuevo() {
@@ -251,6 +255,10 @@ const { createApp } = Vue
             this.statuspedidos=false;  
             this.pedidoblank=true;
             this.actualizarcarrito();
+            if (this.pedido==0) {
+                this.pedidoblank=false;
+            };   
+            this.openstatus="A"
         },
         /* Elimina el pedido de un cliente */
         eliminarpedidos(idcarga) {
@@ -306,21 +314,29 @@ const { createApp } = Vue
             /* Pido confirmacion */
            let confirma = confirm("Esta seguro de cerrar y enviar este pedido? Luego no se podra modificar el contenido del mismo ni volver a abrirlo.");
            if (confirma == true) {
-               const url = this.url+'/cerrar/' + idclose;
-               var options = {
+                if (this.pedido==idclose) {
+                    this.openstatus="C"
+                };
+                const url = this.url+'/cerrar/' + idclose;
+                var options = {
                    method: 'PUT',
-               }
-               fetch(url, options)
+                }
+                fetch(url, options)
                    .then(res => res.text()) // or res.json()
+                            /* actualizo el detalle */
+                            this.pedidos=[];
+                            this.mispedidos(this.cod_cli);
            } else {
                return false
            };
-           /* actualizo el detalle */
-           this.mispedidos();
+            /* actualizo el detalle */
+           this.pedidos=[];
+           this.mispedidos(this.cod_cli);
         }
         },
     /* Funcion de INIT */
     created() {
-        /*this.fetchData(this.url)*/
+        this.cod_cli=sessionStorage.clienteact
+        this.cod_name=sessionStorage.nombreact
     },
   }).mount('#app')
